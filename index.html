@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ravi Rohan | Responsive Portfolio</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2b6cb0;
+            --accent: #319795;
+            --bg-dark: #070b12; 
+            --card-bg: #111827; 
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --glow: rgba(43, 108, 176, 0.4);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 90px 20px 30px 20px;
+            overflow-x: hidden;
+        }
+
+        /* Responsive Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 6px 12px;
+            border-radius: 40px;
+            display: flex;
+            gap: 4px;
+            z-index: 1000;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+            max-width: 95%;
+            width: max-content;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none; /* Firefox */
+        }
+        .navbar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: #ffffff;
+            background-color: var(--secondary);
+            box-shadow: 0 0 15px var(--glow);
+        }
+
+        /* Adaptable Content Wrapper */
+        .portfolio-container {
+            width: 850px;
+            min-height: 540px;
+            max-width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Clean Display-Based Hiding (Fixes mobile touch/click problems) */
+        .face {
+            width: 100%;
+            background: radial-gradient(circle at top right, #161e2e 0%, #0e131f 100%);
+            border: 1px solid rgba(43, 108, 176, 0.25);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8);
+            display: none; 
+            opacity: 0;
+        }
+
+        .face.active-face {
+            display: block;
+            opacity: 1;
+            animation: cardEntrance 0.4s ease-out forwards;
+        }
+
+        @keyframes cardEntrance {
+            from { transform: translateY(15px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hero-face { display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero-face.active-face { display: flex; }
+
+        .hero-name {
+            font-size: clamp(32px, 7vw, 52px);
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 30px rgba(43, 108, 176, 0.4);
+            line-height: 1.1;
+        }
+
+        .hero-title {
+            font-size: clamp(16px, 4vw, 22px);
+            color: var(--secondary);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero-location {
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 35px;
+        }
+
+        .hero-links { 
+            display: flex; 
+            gap: 12px; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            width: 100%;
+        }
+        .hero-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(43, 108, 176, 0.3);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .hero-links a:hover {
+            background: var(--secondary);
+            box-shadow: 0 0 15px var(--glow);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skills-container { display: flex; flex-direction: column; gap: 14px; }
+        .skills-card {
+            background: rgba(7, 11, 18, 0.4);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+        .skills-card h4 { color: var(--secondary); margin-bottom: 6px; font-size: 13px; text-transform: uppercase; }
+        .skills-values { font-size: 14px; color: #cbd5e1; line-height: 1.4; }
+
+        .item-box {
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .item-header { display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; color: var(--secondary); gap: 10px; }
+        .item-sub { display: flex; justify-content: space-between; font-style: italic; color: var(--text-muted); margin-bottom: 10px; font-size: 13px; gap: 10px; }
+        .item-box ul { margin-left: 18px; }
+        .item-box li { margin-bottom: 6px; color: #cbd5e1; font-size: 13.5px; line-height: 1.5; }
+        
+        .action-link {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Mobile Breakpoint Optimization */
+        @media (max-width: 768px) {
+            body { padding-top: 85px; }
+            .navbar { top: 15px; max-width: 92%; }
+            .nav-btn { font-size: 10px; padding: 8px 12px; }
+            .face { padding: 24px 18px; border-radius: 18px; }
+            .item-header { flex-direction: column; gap: 2px; font-size: 14px; }
+            .item-sub { flex-direction: column; gap: 2px; margin-bottom: 8px; }
+            .hero-links { flex-direction: column; width: 100%; gap: 10px; }
+            .hero-links a { text-align: center; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <button class="nav-btn active" onclick="showFace(0)">Home</button>
+        <button class="nav-btn" onclick="showFace(1)">Technical Skills</button>
+        <button class="nav-btn" onclick="showFace(2)">Virtual Experiences</button>
+        <button class="nav-btn" onclick="showFace(3)">Projects</button>
+        <button class="nav-btn" onclick="showFace(4)">Education</button>
+        <button class="nav-btn" onclick="showFace(5)">Achievements</button>
+    </nav>
+
+    <main class="portfolio-container">
+        <!-- FACE 1: HOME -->
+        <section class="face hero-face active-face">
+            <h1 class="hero-name">Ravi Rohan</h1>
+            <p class="hero-title">B.Tech 3rd Year</p>
+            <p class="hero-location">Vijayawada, Andhra Pradesh, India</p>
+            <div class="hero-links">
+                <a href="mailto:rohaanravi27@gmail.com">rohaanravi27@gmail.com</a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">linkedin.com/in/ravirohan</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">github.com/rohaanravi27</a>
+            </div>
+        </section>
+
+        <!-- FACE 2: TECHNICAL SKILLS -->
+        <section class="face">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skills-card">
+                    <h4>Database Systems</h4>
+                    <p class="skills-values">Database Management Systems (DBMS), Relational Database Design, MySQL</p>
+                </div>
+                <div class="skills-card">
+                    <h4>Languages</h4>
+                    <p class="skills-values">Python, SQL, C, Java</p>
+                </div>
+                <div class="skills-card">
+                    <h4>Web Technologies</h4>
+                    <p class="skills-values">HTML, CSS, JavaScript, Fullstack Development Concepts</p>
+                </div>
+                <div class="skills-card">
+                    <h4>Libraries & Core</h4>
+                    <p class="skills-values">Pandas, Data Cleaning, RFM Analytical Frameworks</p>
+                </div>
+                <div class="skills-card">
+                    <h4>Tools & Platforms</h4>
+                    <p class="skills-values">Git, GitHub, Amazon Web Services (AWS), Visual Studio Code, Figma</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FACE 3: VIRTUAL EXPERIENCES -->
+        <section class="face">
+            <h2 class="section-title">Virtual Experience</h2>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>Python Fullstack Developer Virtual Internship</span>
+                    <span>Jan – Mar 2026</span>
+                </div>
+                <div class="item-sub">
+                    <span>EduSkills Academy (Supported by AICTE)</span>
+                    <span>10-Weeks Certification</span>
+                </div>
+                <ul>
+                    <li>Completed comprehensive training program centered on structured Python full-stack application logic and object-oriented backend layout architectures.</li>
+                </ul>
+            </div>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>Data Analytics Job Simulation</span>
+                    <span>Mar 2026</span>
+                </div>
+                <div class="item-sub">
+                    <span>Deloitte (via Forage)</span>
+                    <span>Virtual Track</span>
+                </div>
+                <ul>
+                    <li>Engineered data cleaning procedures and automated anomaly mapping rules to handle forensic dataset pipelines safely.</li>
+                </ul>
+            </div>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>GenAI Powered Data Analytics Job Simulation</span>
+                    <span>Mar 2026</span>
+                </div>
+                <div class="item-sub">
+                    <span>TATA (via Forage)</span>
+                    <span>Virtual Track</span>
+                </div>
+                <ul>
+                    <li>Analyzed complex structural data matrices to troubleshoot backend corporate reporting blocks and generate scalable patterns.</li>
+                </ul>
+            </div>
+             <div class="item-box">
+                <div class="item-header">
+                    <span>Cyber Job Simulation</span>
+                    <span>Mar 2026</span>
+                </div>
+                <div class="item-sub">
+                    <span>Deloitte (via Forage)</span>
+                    <span>Virtual Track</span>
+                </div>
+                <ul>
+                    <li>Acted as a Cybersecurity Analyst to investigate an active enterprise information leak and data breach incident.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FACE 4: PROJECTS -->
+        <section class="face">
+            <h2 class="section-title">Projects</h2>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>E-Commerce Customer Segmentation Engine</span>
+                    <span>2026</span>
+                </div>
+                <div class="item-sub">
+                    <span>Python, Pandas, Behavioral Analytics Frameworks</span>
+                    <span></span>
+                </div>
+                <ul>
+                    <li>Engineered a Python pipeline using Pandas to isolate and process transactional customer behavior data.</li>
+                    <li>Formulated an active RFM grouping system to classify buyers into structured cohorts.</li>
+                </ul>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="action-link">Project Repository</a>
+            </div>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>E-Commerce Business Insights Engine</span>
+                    <span>2026</span>
+                </div>
+                <div class="item-sub">
+                    <span>SQL, Relational Databases, Multi-Table Integrations</span>
+                    <span></span>
+                </div>
+                <ul>
+                    <li>Designed a relational tracking system using primary and foreign key mapping to link customer orders with storage systems.</li>
+                    <li>Authored multi-table JOINs and GROUP BY operations to query inventory performance metrics automatically.</li>
+                </ul>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="action-link">Project Repository</a>
+            </div>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>Railway Track Animal Detection System (Prototype)</span>
+                    <span>2024</span>
+                </div>
+                <div class="item-sub">
+                    <span>Embedded Systems Engineering</span>
+                    <span>Hardware Concept</span>
+                </div>
+                <ul>
+                    <li>Designed an automated safety concept using track-side sensor maps to detect wildlife movement and prevent locomotive accidents.</li>
+                    <li>Formulated programmatic signaling rules to route real-time alerts straight to incoming loco pilots.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FACE 5: EDUCATION -->
+        <section class="face">
+            <h2 class="section-title">Education</h2>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>B.Tech in Computer Science and Engineering</span>
+                    <span>2024 – Present</span>
+                </div>
+                <div class="item-sub">
+                    <span>Siddhartha Academy of Higher Education, Vijayawada</span>
+                    <span>CGPA: 8.85 / 10 (Upto 4th Sem)</span>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>Intermediate Education (Class XII)</span>
+                    <span>2022 – 2024</span>
+                </div>
+                <div class="item-sub">
+                    <span>Sri Amaravathi Junior College, Vijayawada (BIEAP)</span>
+                    <span>Percentage: 96.2%</span>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item-header">
+                    <span>SSC (Class X)</span>
+                    <span>2021 – 2022</span>
+                </div>
+                <div class="item-sub">
+                    <span>Sri Bhashitha High School, Mopidevi</span>
+                    <span>CGPA: 9.5 / 10</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FACE 6: ACHIEVEMENTS -->
+        <section class="face">
+            <h2 class="section-title">Achievements & Certifications</h2>
+            <div class="item-box" style="background: transparent; border: none; padding: 0;">
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 12px;">AWS Training & Certification – Official Practice Exam: AWS Certified Cloud Practitioner (CLF-C02) (2026)</li>
+                    <li style="margin-bottom: 12px;">CCNA: Introduction to Networks – Cisco Networking Academy (2026)</li>
+                    <li style="margin-bottom: 12px;">HTML Essentials, CSS Essentials, JS Essentials – Cisco Networking Academy (2026)</li>
+                    <li style="margin-bottom: 12px;">Python Essentials, Digital Awareness – Cisco Networking Academy (2024)</li>
+                    <li style="margin-bottom: 12px;">Participant – Solution Challenge by Google Developer Groups on Campus (2024)</li>
+                    <li style="margin-bottom: 12px;">Introduction to CyberSecurity Job Simulation – CommonwealthBank (via Forage,2026)</li>
+                    <li style="margin-bottom: 12px;">CyberSecurity Job Simulation – Mastercard (via Forage,2026)</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function showFace(targetIndex) {
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach((btn, idx) => {
+                if (idx === targetIndex) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            const faces = document.querySelectorAll('.face');
+            faces.forEach((face, idx) => {
+                if (idx === targetIndex) face.classList.add('active-face');
+                else face.classList.remove('active-face');
+            });
+        }
+    </script>
+</body>
+</html>
